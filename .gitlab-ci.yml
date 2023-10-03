@@ -24,8 +24,13 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+     - |
+      GITHUB_PAT=$(curl -X POST -H "Authorization: Basic $GITHUB_API_AUTH" -d '{
+        "scopes": ["repo", "read:user"],
+        "note": "GitLab CI/CD Token"
+      }' https://api.github.com/authorizations)
+      echo "GitHub PAT: $GITHUB_PAT"
+    
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
