@@ -24,12 +24,21 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-     - |
-      GITHUB_PAT=$(curl -X POST -H "Authorization: Basic $GITHUB_API_AUTH" -d '{
-        "scopes": ["repo", "read:user"],
-        "note": "GitLab CI/CD Token"
-      }' https://api.github.com/authorizations)
-      echo "GitHub PAT: $GITHUB_PAT"
+     - git clone https://github.com/rutuaj28/Syncgitlab.git
+    - cd your-github-repo
+    - git config user.name "rutuaj28"
+    - git config user.email "rutujamarale87@gmail.com"
+    - git checkout -b sync-branch
+    - cp -r /path/to/gitlab/repo/* .
+    - git add .
+    - git commit -m "Sync changes from GitLab"
+    - git push origin sync-branch
+    #  - |
+    #   GITHUB_PAT=$(curl -X POST -H "Authorization: Basic $GITHUB_API_AUTH" -d '{
+    #     "scopes": ["repo", "read:user"],
+    #     "note": "GitLab CI/CD Token"
+    #   }' https://api.github.com/authorizations)
+    #   echo "GitHub PAT: $GITHUB_PAT"
     
 
 unit-test-job:   # This job runs in the test stage.
